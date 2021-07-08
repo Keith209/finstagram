@@ -3,6 +3,7 @@ header {
     color: #e8fdff;
 }
 body {
+    font-family: 'Roboto Condensed', sans-serif;
     background-color: whitesmoke;
 }
 main {
@@ -15,7 +16,10 @@ main {
 .finstagram-post .user-info img {
     border-radius: 50%;
 }
-font-family: 'Qahiri', sans-serif;
-body {
-    font-family: 'Qahiri', sans-serif;
+
+a.photo:hover{
+    padding: 10px;
+}
+a.photo{
+    transition: padding 0.5s;
 }
