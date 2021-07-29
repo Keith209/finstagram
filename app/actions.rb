@@ -16,10 +16,10 @@ post '/login' do
     username = params[:username]
     password = params[:password]
 
-    @user = User.find_by(username: username)
+    user = User.find_by(username: username)
 
-    if @user && @user.password == password
-        session[:user_id] = @user.id
+    if user && user.password == password
+        session[:user_id] = user.id
         redirect to ('/')
     else
         @error_message = "Login failed."
@@ -35,6 +35,28 @@ end
 get '/signup' do
     @user = User.new 
     erb(:signup)
+end
+
+get '/finstagram_posts/new' do
+    @finstagram_post = FinstagramPost.new
+    erb(:"finstagram_posts/new")
+end
+
+get '/finstagram_posts/:id' do
+        @finstagram_post = FinstagramPost.find(params[:id])
+        erb(:"finstagram_posts/show")
+    end
+
+post '/finstagram_posts' do
+    photo_url = params[:photo_url]
+
+    @finstagram_post = FinstagramPost.new({ photo_url: photo_url, user_id: current_user.id })
+
+    if @finstagram_post.save
+        redirect(to('/'))
+    else
+        erb(:"finstagram_posts/new")
+    end
 end
 
 post '/signup' do
