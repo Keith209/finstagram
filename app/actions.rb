@@ -3,14 +3,41 @@ helpers do
         User.find_by(id:session[:user_id])
     end
 end
-get '/login' do
-    erb(:login)
+
+post '/comments' do
+    text = params[:text]
+    finstagram_post_id = params[:finstagram_post_id]
+
+    comment = Comment.new({ text: text, finstagram_post_id: finstagram_post_id, user_id: current_user.id })
+
+    comment.save
+
+    redirect(back)
+end
+
+post '/likes' do
+    finstagram_post_id = params[:finstagram_post_id]
+
+    like = Like.new({ finstagram_post_id: finstagram_post_id, user_id: current_user.id })
+    like.save
+
+    redirect(back)
+end
+
+delete '/likes/:id' do
+    like = Like.find(params[:id])
+    like.destroy
+    redirect(back)
 end
 
 get '/logout' do
     session[:user_id] = nil
     redirect to('/')
 end 
+
+get '/login' do
+    erb(:login)
+end
 
 post '/login' do
     username = params[:username]
